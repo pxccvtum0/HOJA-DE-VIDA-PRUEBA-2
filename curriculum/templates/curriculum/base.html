@@ -1,0 +1,188 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Sorcerer Rank | Hoja de Vida{% endblock %}</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        /* ESTÉTICA JUJUTSU KAISEN */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@900&family=Space+Grotesk:wght@300;400;500;600;700;900&display=swap');
+        
+        body { 
+            font-family: 'Space Grotesk', sans-serif; 
+            background-color: #030014; /* Negro púrpura profundo */
+            color: #f8fafc; 
+            margin: 0; 
+            overflow-x: hidden;
+        }
+        
+        /* Animaciones Globales */
+        .fade-in { animation: fadeIn 0.8s ease-out forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cabecera Estática con Efecto de Vidrio */
+        .glass-header {
+            background: rgba(3, 0, 20, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Enlaces de Navegación */
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #7c3aed;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+            box-shadow: 0 0 10px #7c3aed;
+        }
+
+        .nav-link:hover::after, .nav-active::after {
+            width: 80%;
+        }
+
+        .nav-active {
+            color: #7c3aed !important;
+            font-weight: 900;
+        }
+
+        /* Scrollbar Temático */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(124, 58, 237, 0.5);
+            border-radius: 10px;
+        }
+
+        /* Clases de utilidad para las secciones hijas */
+        .kanji-bg {
+            font-family: 'Noto Sans JP', sans-serif;
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+            line-height: 1;
+        }
+
+        @media (max-width: 1024px) {
+            .nav-text { display: none; }
+        }
+    </style>
+</head>
+<body class="min-h-screen pt-24">
+
+    <!-- CABECERA ESTÁTICA (NAVBAR) -->
+    <header class="fixed top-0 left-0 right-0 h-20 glass-header z-[100] flex items-center shadow-2xl">
+        <div class="max-w-[1440px] w-full mx-auto px-6 md:px-12 flex items-center justify-between">
+            
+            <!-- Logo e Identidad del Hechicero -->
+            <div class="flex items-center gap-4 group">
+                <div class="w-12 h-12 bg-purple-600 rounded-xl flex items-center justify-center text-white font-black text-xl shadow-[0_0_20px_rgba(124,58,237,0.4)] group-hover:scale-110 transition-transform duration-500 uppercase">
+                    {% if perfil %}{{ perfil.nombres|first }}{% else %}V{% endif %}
+                </div>
+                <div class="hidden sm:block text-left">
+                    <p class="font-black text-sm tracking-tighter text-white uppercase leading-none">
+                        {% if perfil %}{{ perfil.nombres }} {{ perfil.apellidos }}{% else %}Usuario{% endif %}
+                    </p>
+                    <p class="text-[9px] font-bold text-purple-400 uppercase tracking-[0.2em] mt-1 italic text-left">領域展開</p>
+                </div>
+            </div>
+
+            <!-- Navegación Central -->
+            <nav class="flex items-center gap-1 md:gap-4">
+                {% with request.resolver_match.url_name as url_name %}
+                <a href="{% url 'inicio' %}" class="nav-link flex flex-col items-center p-2 {% if url_name == 'inicio' %}nav-active text-purple-500{% else %}text-slate-400 hover:text-white{% endif %}">
+                    <i data-lucide="home" size="20" stroke-width="2.5"></i>
+                    <span class="nav-text text-[10px] uppercase font-black tracking-widest mt-1">Inicio</span>
+                </a>
+                <a href="{% url 'perfil' %}" class="nav-link flex flex-col items-center p-2 {% if url_name == 'perfil' %}nav-active text-purple-500{% else %}text-slate-400 hover:text-white{% endif %}">
+                    <i data-lucide="user" size="20" stroke-width="2.5"></i>
+                    <span class="nav-text text-[10px] uppercase font-black tracking-widest mt-1">Perfil</span>
+                </a>
+                <a href="{% url 'experiencia' %}" class="nav-link flex flex-col items-center p-2 {% if url_name == 'experiencia' %}nav-active text-purple-500{% else %}text-slate-400 hover:text-white{% endif %}">
+                    <i data-lucide="briefcase" size="20" stroke-width="2.5"></i>
+                    <span class="nav-text text-[10px] uppercase font-black tracking-widest mt-1">Exp</span>
+                </a>
+                <a href="{% url 'educacion' %}" class="nav-link flex flex-col items-center p-2 {% if url_name == 'educacion' %}nav-active text-purple-500{% else %}text-slate-400 hover:text-white{% endif %}">
+                    <i data-lucide="graduation-cap" size="20" stroke-width="2.5"></i>
+                    <span class="nav-text text-[10px] uppercase font-black tracking-widest mt-1">Edu</span>
+                </a>
+                <a href="{% url 'cursos' %}" class="nav-link flex flex-col items-center p-2 {% if url_name == 'cursos' %}nav-active text-purple-500{% else %}text-slate-400 hover:text-white{% endif %}">
+                    <i data-lucide="book-open-check" size="20" stroke-width="2.5"></i>
+                    <span class="nav-text text-[10px] uppercase font-black tracking-widest mt-1">Cursos</span>
+                </a>
+                <a href="{% url 'reconocimientos' %}" class="nav-link flex flex-col items-center p-2 {% if url_name == 'reconocimientos' %}nav-active text-purple-500{% else %}text-slate-400 hover:text-white{% endif %}">
+                    <i data-lucide="trophy" size="20" stroke-width="2.5"></i>
+                    <span class="nav-text text-[10px] uppercase font-black tracking-widest mt-1">Logros</span>
+                </a>
+                <a href="{% url 'venta' %}" class="nav-link flex flex-col items-center p-2 {% if url_name == 'venta' %}nav-active text-pink-500{% else %}text-slate-400 hover:text-pink-400{% endif %}">
+                    <i data-lucide="tag" size="20" stroke-width="2.5"></i>
+                    <span class="nav-text text-[10px] uppercase font-black tracking-widest mt-1">Venta</span>
+                </a>
+                {% endwith %}
+            </nav>
+
+            <!-- Acciones Derecha -->
+            <div class="flex items-center gap-3">
+                <a href="{% url 'contacto' %}" class="hidden md:flex items-center gap-2 bg-purple-600/10 hover:bg-purple-600 text-purple-400 hover:text-white px-4 py-2 rounded-lg border border-purple-600/30 transition-all text-xs font-black uppercase tracking-widest">
+                    <i data-lucide="message-square" size="16"></i>
+                    <span>Contacto</span>
+                </a>
+                <a href="/admin/" target="_blank" class="w-10 h-10 flex items-center justify-center text-slate-500 hover:text-purple-400 hover:bg-purple-900/20 rounded-lg transition-all" title="Panel de Administración">
+                    <i data-lucide="settings" size="20"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENEDOR PRINCIPAL DINÁMICO -->
+    <main class="min-h-screen px-6 md:px-12 py-12 relative z-10">
+        <div class="max-w-[1400px] w-full mx-auto fade-in">
+            
+            <!-- Aquí se inyecta el contenido de cada página -->
+            {% block content %}
+            {% endblock %}
+
+        </div>
+    </main>
+
+    <!-- Decoraciones de Fondo (Capa Visual Inferior) -->
+    <div class="fixed top-0 right-0 w-[60vw] h-[60vh] bg-gradient-to-bl from-purple-600/10 via-transparent to-transparent -z-10 rounded-bl-full blur-[120px] pointer-events-none"></div>
+    <div class="fixed bottom-0 left-0 w-[30vw] h-[30vh] bg-gradient-to-tr from-violet-500/5 via-transparent to-transparent -z-10 rounded-tr-full blur-[100px] pointer-events-none"></div>
+
+    <!-- Scripts de Iconografía y UI -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        // Inicializar Iconos Lucide
+        lucide.createIcons();
+        
+        // Comportamiento del Header al hacer Scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.style.height = '70px';
+                header.style.backgroundColor = 'rgba(3, 0, 20, 0.95)';
+            } else {
+                header.style.height = '80px';
+                header.style.backgroundColor = 'rgba(3, 0, 20, 0.8)';
+            }
+        });
+    </script>
+</body>
+</html>

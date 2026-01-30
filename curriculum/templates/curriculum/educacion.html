@@ -1,0 +1,116 @@
+{% extends 'curriculum/base.html' %}
+
+{% block title %}Formación Académica{% endblock %}
+
+{% block content %}
+<div class="bg-[#05070a] p-6 md:p-12 min-h-screen font-black italic uppercase text-white overflow-hidden relative">
+    
+    <!-- EFECTO DE FONDO: KANJI GIGANTE -->
+    <div class="absolute top-0 right-0 text-[20rem] font-black text-white/[0.02] select-none pointer-events-none italic leading-none translate-x-20 -translate-y-20">
+        学術
+    </div>
+
+    <!-- TÍTULO IMPACTANTE (Aumento del 10% y estilo Jujutsu) -->
+    <div class="relative mb-24 pt-10">
+        <!-- Decoración lateral de flujo de energía -->
+        <div class="absolute left-0 top-10 w-2 h-40 bg-gradient-to-b from-[#3b82f6] via-[#8b5cf6] to-transparent shadow-[0_0_20px_rgba(59,130,246,0.6)] rounded-full"></div>
+        
+        <div class="pl-10">
+            <h2 class="italic font-[900] tracking-tighter uppercase leading-[0.8]">
+                <span class="block text-6xl md:text-8xl text-white drop-shadow-sm">PRODUCTOS</span>
+                <span class="block text-7xl md:text-9xl text-transparent bg-clip-text bg-gradient-to-r from-[#3b82f6] via-[#8b5cf6] to-[#d946ef] filter drop-shadow-[0_0_15px_rgba(139,92,246,0.4)]">
+                    ACADÉMICOS
+                </span>
+            </h2>
+            <div class="flex items-center gap-3 mt-6">
+                <div class="h-[1px] w-12 bg-[#3b82f6]"></div>
+                <p class="text-[10px] md:text-xs font-mono tracking-[0.5em] text-[#3b82f6] uppercase opacity-80">
+                    INTELLIGENCE ARCHIVE // GRADE 0
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- REJILLA DE EDUCACIÓN (3 COLUMNAS) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative z-10">
+        {% for estudio in estudios %}
+        <div class="group relative bg-[#0a0d14] border border-white/5 rounded-[2.5rem] p-10 transition-all duration-500 hover:border-[#3b82f6]/40 hover:shadow-[0_0_40px_rgba(59,130,246,0.15)] hover:-translate-y-2 flex flex-col h-full overflow-hidden">
+            
+            <!-- Efecto de Brillo Interno -->
+            <div class="absolute -top-24 -right-24 w-48 h-48 bg-[#3b82f6]/10 blur-[60px] rounded-full group-hover:bg-[#3b82f6]/20 transition-colors"></div>
+
+            <!-- Icono de Logro (Award) con Aura -->
+            <div class="mb-10 relative">
+                <div class="w-16 h-16 rounded-2xl bg-[#111827] border border-white/10 flex items-center justify-center text-[#3b82f6] group-hover:bg-[#3b82f6] group-hover:text-white group-hover:rotate-[10deg] transition-all duration-500 shadow-inner">
+                    <i data-lucide="award" class="w-8 h-8"></i>
+                </div>
+            </div>
+
+            <!-- Título del Grado (Ajustado a estética Jujutsu) -->
+            <h3 class="text-3xl font-black italic uppercase leading-none mb-4 tracking-tighter group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-[#8b5cf6] transition-all duration-300">
+                {{ estudio.titulo }}
+            </h3>
+
+            <!-- Institución con estilo técnico -->
+            <div class="mb-8">
+                <span class="text-[9px] font-mono text-gray-600 uppercase tracking-[0.3em] block mb-2">Institution Code</span>
+                <p class="text-sm font-bold text-gray-400 uppercase tracking-wider italic leading-relaxed">
+                    {{ estudio.institucion }}
+                </p>
+            </div>
+
+            <!-- Divisor de Energía sutil -->
+            <div class="h-px w-full bg-gradient-to-r from-white/10 to-transparent mt-auto mb-8"></div>
+
+            <!-- Pie de la Tarjeta -->
+            <div class="flex items-end justify-between">
+                <div class="space-y-1">
+                    <span class="text-[9px] font-black text-[#3b82f6] uppercase tracking-[0.2em] block">Periodo de Desarrollo</span>
+                    <div class="flex items-center gap-2 font-mono text-[11px]">
+                        <span class="text-white opacity-80 bg-white/5 px-2 py-0.5 rounded">{{ estudio.fecha_inicio }}</span>
+                        <span class="text-[#8b5cf6] font-bold">/</span>
+                        <span class="text-white opacity-80 bg-white/5 px-2 py-0.5 rounded">{{ estudio.fecha_fin }}</span>
+                    </div>
+                </div>
+
+                <!-- Botón de Certificado Estilo Dark Tech -->
+                {% if estudio.certificado_pdf %}
+                <a href="{{ estudio.certificado_pdf.url }}" target="_blank" 
+                   class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-black hover:bg-[#3b82f6] hover:text-white hover:scale-110 transition-all duration-300 shadow-[0_10px_20px_rgba(0,0,0,0.5)] group/btn">
+                    <i data-lucide="file-text" class="w-6 h-6 group-hover/btn:rotate-12 transition-transform"></i>
+                </a>
+                {% else %}
+                <div class="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center text-white/10 border border-white/5 cursor-not-allowed">
+                    <i data-lucide="file-x" class="w-5 h-5"></i>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-span-full py-32 text-center bg-[#0a0d14] rounded-[3rem] border border-dashed border-white/5">
+            <i data-lucide="graduation-cap" class="w-16 h-16 mx-auto mb-6 text-white/10"></i>
+            <p class="text-gray-500 font-mono uppercase tracking-[0.4em] text-xs">Archives Empty // No records found</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <style>
+        /* Tipografía e Interacciones */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+        
+        .fade-in {
+            animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Glitch sutil al hover del título principal */
+        h2:hover span {
+            text-shadow: 2px 0 #3b82f6, -2px 0 #d946ef;
+        }
+    </style>
+</div>
+{% endblock %}

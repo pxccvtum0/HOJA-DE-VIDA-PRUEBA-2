@@ -1,0 +1,104 @@
+{% extends 'curriculum/base.html' %}
+
+{% block content %}
+<div class="fade-in max-w-7xl mx-auto pb-10">
+    
+    <!-- SECCIÓN DE CONTACTO: EXPANSIÓN DE DOMINIO -->
+    <div class="flex flex-col items-center justify-center min-h-[80vh] text-center relative overflow-hidden px-4">
+        
+        <!-- Efectos de Fondo: Energía Maldita y Distorsión -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-900/20 blur-[120px] rounded-full animate-pulse -z-10"></div>
+        <div class="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none -z-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
+        
+        <div class="mb-12 relative w-full max-w-4xl pt-10">
+            <!-- Kanji de fondo ajustado -->
+            <div class="absolute left-1/2 -top-16 -translate-x-1/2 text-[8rem] md:text-[12rem] font-black text-purple-600/5 kanji-bg select-none pointer-events-none whitespace-nowrap">領域展開</div>
+            
+          <!-- Título ajustado para evitar CUALQUIER tipo de corte -->
+            <h2 class="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[1.4] uppercase text-white italic relative z-10 drop-shadow-[0_5px_15px_rgba(0,0,0,0.8)] overflow-visible">
+                <span class="inline-block py-2 px-4">INICIEMOS TU</span> <br/> 
+                <span class="text-transparent bg-clip-text bg-gradient-to-br from-purple-400 via-indigo-500 to-purple-800 drop-shadow-[0_0_20px_rgba(168,85,247,0.4)] inline-block py-6 px-10 -ml-4">
+                    PROYECTO
+                </span>
+            </h2>
+            
+            <!-- Decoración Técnica Refinada -->
+            <div class="flex items-center justify-center gap-3 mt-2">
+                <div class="h-[1px] w-12 bg-gradient-to-r from-transparent to-purple-500"></div>
+                <div class="text-[9px] font-black text-purple-400 uppercase tracking-[0.8em] animate-pulse">Sello de Contrato</div>
+                <div class="h-[1px] w-12 bg-gradient-to-l from-transparent to-purple-500"></div>
+            </div>
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-4 w-full max-w-5xl relative z-10">
+            
+            <!-- Card 1: WhatsApp Dinámico -->
+            <a href="https://wa.me/593{{ perfil.telefono|slice:'1:' }}" target="_blank" class="jujutsu-card group relative bg-black/60 backdrop-blur-md p-8 rounded-br-[4rem] rounded-tl-[4rem] border-l-2 border-t-2 border-purple-600/30 hover:border-green-500 transition-all duration-500">
+                <div class="absolute top-0 right-0 p-3 text-[7px] font-black text-purple-900/60 uppercase tracking-widest">Type: Messenger</div>
+                
+                <div class="w-16 h-16 mx-auto bg-slate-900 border border-purple-500/20 rounded-full flex items-center justify-center mb-6 group-hover:bg-green-500/10 group-hover:border-green-500 transition-all duration-500">
+                    <i data-lucide="message-circle" class="text-green-500" style="width: 32px; height: 32px;"></i>
+                </div>
+
+                <h3 class="text-[9px] font-black text-purple-400 uppercase tracking-[0.3em] mb-2">Canal de Enlace</h3>
+                <p class="text-xl font-black text-white tracking-tighter mb-1">{% if perfil %}{{ perfil.telefono }}{% else %}---{% endif %}</p>
+                <div class="h-[2px] w-0 bg-green-500 group-hover:w-full transition-all duration-500 mx-auto"></div>
+            </a>
+
+            <!-- Card 2: Llamada Dinámica -->
+            <a href="tel:{{ perfil.telefono }}" class="jujutsu-card group relative bg-black/60 backdrop-blur-md p-8 rounded-[1.5rem] border-b-2 border-purple-600/30 hover:border-blue-500 transition-all duration-500">
+                <div class="absolute top-0 right-0 p-3 text-[7px] font-black text-purple-900/60 uppercase tracking-widest">Type: Voice</div>
+                
+                <div class="w-16 h-16 mx-auto bg-slate-900 border border-purple-500/20 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-500/10 group-hover:border-blue-500 group-hover:rotate-12 transition-all duration-500">
+                    <i data-lucide="phone" class="text-blue-400" style="width: 32px; height: 32px;"></i>
+                </div>
+
+                <h3 class="text-[9px] font-black text-purple-400 uppercase tracking-[0.3em] mb-2">Invocación Directa</h3>
+                <p class="text-xl font-black text-white tracking-tighter mb-1 uppercase italic">Direct Call</p>
+                <div class="h-[2px] w-0 bg-blue-500 group-hover:w-full transition-all duration-500 mx-auto"></div>
+            </a>
+
+            <!-- Card 3: Email Dinámico -->
+            <a href="mailto:{{ perfil.email }}" class="jujutsu-card group relative bg-black/60 backdrop-blur-md p-8 rounded-bl-[4rem] rounded-tr-[4rem] border-r-2 border-b-2 border-purple-600/30 hover:border-pink-500 transition-all duration-500">
+                <div class="absolute top-0 right-0 p-3 text-[7px] font-black text-purple-900/60 uppercase tracking-widest">Type: Terminal</div>
+                
+                <div class="w-16 h-16 mx-auto bg-slate-900 border border-purple-500/20 rounded-full flex items-center justify-center mb-6 group-hover:bg-pink-500/10 group-hover:border-pink-500 transition-all duration-500">
+                    <i data-lucide="mail" class="text-pink-400" style="width: 32px; height: 32px;"></i>
+                </div>
+
+                <h3 class="text-[9px] font-black text-purple-400 uppercase tracking-[0.3em] mb-2">Mensajería</h3>
+                <p class="text-[10px] font-black text-white truncate w-full px-2 mb-1 lowercase italic">{% if perfil %}{{ perfil.email }}{% else %}---{% endif %}</p>
+                <div class="h-[2px] w-0 bg-pink-500 group-hover:w-full transition-all duration-500 mx-auto"></div>
+            </a>
+        </div>
+        
+        <!-- Footer de la sección -->
+        <div class="mt-12 opacity-20">
+            <p class="text-[7px] font-black uppercase tracking-[1em] text-white">Non-Cursed Users Only — System v2.0</p>
+        </div>
+    </div>
+</div>
+
+<style>
+    .fade-in { animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    
+    .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    .kanji-bg {
+        writing-mode: vertical-rl;
+        text-orientation: upright;
+        line-height: 0.8;
+    }
+
+    .jujutsu-card {
+        box-shadow: 0 10px 30px -15px rgba(0,0,0,0.7);
+        transition: all 0.4s ease;
+    }
+
+    .jujutsu-card:hover {
+        background-color: rgba(15, 23, 42, 0.9);
+        transform: translateY(-5px);
+    }
+</style>
+{% endblock %}

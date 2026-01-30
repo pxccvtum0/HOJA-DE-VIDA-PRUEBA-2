@@ -1,0 +1,245 @@
+{% extends 'curriculum/base.html' %}
+
+{% block title %}Datos Personales | Milenka Viera{% endblock %}
+
+{% block content %}
+<div class="fade-in max-w-7xl mx-auto pb-20">
+    
+    <!-- Encabezado con Estilo Jujutsu y Botones de Acción -->
+    <div class="mb-12 relative flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div class="relative">
+            <div class="absolute -left-8 -top-6 text-7xl font-black text-purple-900/10 kanji-bg select-none">個人情報</div>
+            <h2 class="text-6xl font-black italic uppercase tracking-tighter text-white leading-none relative z-10">
+                Datos <span class="text-purple-500">Personales</span>
+            </h2>
+            <div class="h-2 w-24 bg-purple-600 mt-4 rounded-full shadow-[0_0_15px_rgba(147,51,234,0.5)]"></div>
+        </div>
+
+ <!-- Botones Estilo Escuela de Hechicería -->
+        <div class="flex flex-wrap gap-4 items-center pt-2">
+            <!-- Botón de Experiencia / Trabajos -->
+            <a href="{% url 'trabajos' %}" class="relative group px-10 py-4 bg-[#0a0a0a] text-white border border-purple-500/50 rounded-lg hover:bg-purple-600 transition-all duration-500 uppercase text-[10px] tracking-[0.2em] flex items-center gap-4 overflow-hidden shadow-[0_0_20px_rgba(168,85,247,0.15)]">
+                <span class="relative z-10 flex items-center gap-3">
+                    PROYECTOS <i data-lucide="sparkles" class="w-4 h-4"></i>
+                </span>
+                <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            </a>
+            
+            <!-- Botón de Descarga CV -->
+            <a href="{% url 'generar_cv' %}" target="_blank" class="flex items-center gap-4 group p-1.5 px-4 bg-white/5 rounded-full border border-white/5 hover:border-purple-500/30 transition-all">
+                <div class="w-10 h-10 flex items-center justify-center border-2 border-slate-700 rounded-full group-hover:border-purple-500 group-hover:bg-purple-500/10 transition-all transform hover:rotate-[360deg] duration-700">
+                    <i data-lucide="scroll" class="w-4 h-4 text-slate-400 group-hover:text-purple-400"></i>
+                </div>
+                <div>
+                    <span class="block text-[8px] font-mono text-slate-500 leading-none mb-0.5">SCROLL</span>
+                    <span class="text-[11px] font-black uppercase tracking-widest text-white group-hover:text-purple-400 transition-colors">DESCARGAR CV</span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Lado Derecho: Marco de Hechicero (Optimizado para no causar scroll) -->
+    <div class="lg:col-span-8 relative mt-8 lg:mt-0 px-8 flex justify-center items-center">
+        
+
+    <!-- Contenedor Principal (Ajuste de proporciones: 3 vs 9) -->
+    <div class="grid lg:grid-cols-12 gap-10">
+        
+        <!-- Columna Izquierda: Imagen y Bio Principal -->
+        <div class="lg:col-span-3 space-y-8">
+            <div class="relative group">
+                <!-- Fondo decorativo morado sutil -->
+                <div class="absolute -inset-4 bg-purple-600/10 rounded-[3rem] -rotate-3 group-hover:rotate-0 transition-transform duration-500 -z-10"></div>
+                <div class="bg-slate-900 p-3 rounded-[2.5rem] shadow-xl border border-purple-900/30 relative z-10 overflow-hidden">
+                    {% if perfil.foto %}
+                        <div class="relative overflow-hidden rounded-[1.8rem]">
+                            <!-- Efecto Scanner de Energía -->
+                            <div class="absolute inset-0 bg-purple-400/30 h-[2px] w-full animate-laser z-20 shadow-[0_0_10px_#a855f7]"></div>
+                            <img src="{{ perfil.foto.url }}" alt="{{ perfil.nombres }}" class="w-full aspect-square object-cover grayscale hover:grayscale-0 transition-all duration-700">
+                        </div>
+                    {% else %}
+                        <div class="w-full aspect-square bg-slate-800 rounded-[1.8rem] flex flex-col items-center justify-center text-slate-600">
+                            <i data-lucide="user" size="48" class="mb-4 opacity-20"></i>
+                            <span class="text-[8px] font-black uppercase tracking-widest">Sin Registro</span>
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Badge de ID Flotante Tech -->
+                <div class="absolute -bottom-3 -right-3 bg-purple-600 text-white px-4 py-2 rounded-xl shadow-2xl z-20 transform group-hover:scale-105 transition-transform border-2 border-slate-900">
+                    <p class="text-[7px] font-black uppercase tracking-[0.2em] text-purple-200 mb-0.5">Identificación</p>
+                    <h4 class="text-xs font-black tracking-tight">{{ perfil.cedula }}</h4>
+                </div>
+            </div>
+
+            <!-- Perfil Profesional Compacto -->
+            <div class="bg-slate-900/50 p-6 rounded-[2.5rem] shadow-sm border border-purple-900/20 relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-4 opacity-10">
+                    <i data-lucide="quote" size="40" class="text-purple-500"></i>
+                </div>
+                <h3 class="text-[9px] font-black uppercase tracking-[0.4em] text-purple-400 mb-3 flex items-center gap-2">
+                    <span class="h-px w-4 bg-purple-500/30"></span> Localizaciones y Otros 
+                </h3>
+                <div class="flex gap-4 mb-4">
+                    <div class="shrink-0 w-12 h-12 bg-slate-800 rounded-2xl flex items-center justify-center text-purple-400">
+                        <i data-lucide="map-pin" size="20"></i>
+                    </div>
+                    <div>
+                        <label class="text-[9px] font-black uppercase tracking-[0.3em] text-slate-500 block mb-1">Dirección Domiciliaria</label>
+                        <p class="text-sm font-bold text-slate-300 leading-tight">{{ perfil.direccion }}</p>
+                    </div>
+                </div>
+                <div class="flex gap-4 mb-4">
+                    <div class="shrink-0 w-12 h-12 bg-slate-800 rounded-2xl flex items-center justify-center text-purple-400">
+                        <i data-lucide="building-2" size="20"></i>
+                    </div>
+                    <div>
+                        <label class="text-[9px] font-black uppercase tracking-[0.3em] text-slate-500 block mb-1">Dirección Trabajo</label>
+                        <p class="text-sm font-bold text-slate-300 leading-tight">{{ perfil.direccion_trabajo|default:"Studio Creativo Manta" }}</p>
+                    </div>
+                </div>
+                <div class="md:col-span-2 pt-4">
+                    <div class="bg-slate-800/50 p-6 rounded-[2rem] flex items-center justify-between border border-purple-900/20">
+                        <div class="flex items-center gap-4">
+                            <i data-lucide="car" class="text-purple-400/60"></i>
+                            <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">Licencia</span>
+                        </div>
+                        <span class="px-4 py-1.5 bg-purple-600 rounded-full text-[10px] font-black text-white shadow-sm">
+                            {{ perfil.licencia|default:"No disponible" }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Redes y Enlaces Actualizados (Ajustados para visibilidad) -->
+            <div class="bg-purple-900/10 p-5 rounded-[2rem] border border-purple-900/30">
+                <div class="flex flex-wrap justify-center items-center gap-6">
+                    {% if perfil.url_linkedin %}
+                    <a href="{{ perfil.url_linkedin }}" target="_blank" class="text-slate-400 hover:text-purple-400 transition-colors" title="LinkedIn">
+                        <i data-lucide="linkedin" size="22"></i>
+                    </a>
+                    {% endif %}
+                    
+                    {% if perfil.url_github %}
+                    <a href="{{ perfil.url_github }}" target="_blank" class="text-slate-400 hover:text-white transition-colors" title="GitHub">
+                        <i data-lucide="github" size="22"></i>
+                    </a>
+                    {% endif %}
+                    
+                    {% if perfil.url_instagram %}
+                    <a href="{{ perfil.url_instagram }}" target="_blank" class="text-slate-400 hover:text-purple-500 transition-colors" title="Instagram">
+                        <i data-lucide="instagram" size="22"></i>
+                    </a>
+                    {% endif %}
+
+                    {% if perfil.url_youtube %}
+                    <a href="{{ perfil.url_youtube }}" target="_blank" class="text-slate-400 hover:text-red-500 transition-colors" title="YouTube">
+                        <i data-lucide="youtube" size="22"></i>
+                    </a>
+                    {% endif %}
+
+                    {% if perfil.url_tiktok %}
+                    <a href="{{ perfil.url_tiktok }}" target="_blank" class="text-slate-400 hover:text-cyan-400 transition-colors" title="TikTok">
+                        <i data-lucide="music-2" size="22"></i>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Columna Derecha: Información Principal -->
+        <div class="lg:col-span-9 space-y-6">
+            
+            <!-- SECCIÓN 1: Identidad Básica -->
+            <div class="bg-slate-900/50 p-10 rounded-[3.5rem] border border-purple-900/20 shadow-sm grid md:grid-cols-3 gap-8">
+                <div class="md:col-span-3 border-b border-purple-900/20 pb-4 mb-2">
+                    <h3 class="text-xs font-black uppercase tracking-[0.5em] text-purple-400">Identidad Básica</h3>
+                </div>
+                <div>
+                    <label class="text-[9px] font-black uppercase tracking-[0.3em] text-slate-500 block mb-1">Nombres Completos</label>
+                    <p class="text-xl font-black text-white">{{ perfil.nombres }}</p>
+                </div>
+                <div>
+                    <label class="text-[9px] font-black uppercase tracking-[0.3em] text-slate-500 block mb-1">Apellidos Completos</label>
+                    <p class="text-xl font-black text-white">{{ perfil.apellidos }}</p>
+                </div>
+                <div>
+                    <label class="text-[9px] font-black uppercase tracking-[0.3em] text-slate-500 block mb-1">Sexo / Género</label>
+                    <p class="text-xl font-black text-white">{{ perfil.sexo }}</p>
+                </div>
+                <div>
+                    <label class="text-[9px] font-black uppercase tracking-[0.3em] text-slate-500 block mb-1">Estado Civil</label>
+                    <p class="text-xl font-black text-white">{{ perfil.estado_civil }}</p>
+                </div>
+                <div>
+                    <label class="text-[9px] font-black uppercase tracking-[0.3em] text-slate-500 block mb-1">Nacionalidad</label>
+                    <p class="text-xl font-black text-white">{{ perfil.nacionalidad }}</p>
+                </div>
+            </div>
+
+            <!-- SECCIÓN 2: Origen y Demografía -->
+            <div class="bg-slate-900/50 p-10 rounded-[3.5rem] border border-purple-900/20 shadow-sm grid md:grid-cols-2 gap-8">
+                <div class="md:col-span-2 border-b border-purple-900/20 pb-4 mb-2">
+                    <h3 class="text-xs font-black uppercase tracking-[0.5em] text-purple-300">Origen & Fecha de Nacimiento</h3>
+                </div>
+                <div>
+                    <label class="text-[9px] font-black uppercase tracking-[0.3em] text-slate-500 block mb-1">Lugar de Nacimiento</label>
+                    <p class="text-base font-black text-slate-200">{{ perfil.lugar_nacimiento }}</p>
+                </div>
+                <div>
+                    <label class="text-[9px] font-black uppercase tracking-[0.3em] text-slate-500 block mb-1">Fecha de Nacimiento</label>
+                    <p class="text-base font-black text-slate-200">{{ perfil.fecha_nacimiento }}</p>
+                </div>
+            </div>
+
+            <!-- SECCIÓN 3: Contacto & Enlaces -->
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Teléfonos -->
+                <div class="bg-purple-600 p-10 rounded-[3.5rem] text-white space-y-6 shadow-[0_0_20px_rgba(147,51,234,0.3)]">
+                    <div>
+                        <label class="text-[9px] font-black uppercase tracking-[0.3em] text-purple-200 block mb-1">Teléfono Personal</label>
+                        <p class="text-xl font-black text-white">{{ perfil.telefono }}</p>
+                    </div>
+                    <div>
+                        <label class="text-[9px] font-black uppercase tracking-[0.3em] text-purple-200 block mb-1">Teléfono Convencional</label>
+                        <p class="text-xl font-black text-purple-100">{{ perfil.telefono_convencional|default:"N/A" }}</p>
+                    </div>
+                </div>
+
+                <!-- Digital -->
+                <div class="bg-slate-900 p-10 rounded-[3.5rem] border border-purple-900/30 space-y-6">
+                    <div>
+                        <label class="text-[9px] font-black uppercase tracking-[0.3em] text-purple-400 block mb-1">Email Profesional</label>
+                        <p class="text-sm font-black text-white truncate">{{ perfil.email }}</p>
+                    </div>
+                    <div>
+                        <label class="text-[9px] font-black uppercase tracking-[0.3em] text-purple-400 block mb-1">Sitio Web</label>
+                        <p class="text-sm font-black text-slate-300">{{ perfil.sitio_web|default:"zeta.zen" }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .fade-in { animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    
+    @keyframes laser {
+        0% { top: 0%; }
+        100% { top: 100%; }
+    }
+    .animate-laser {
+        position: absolute;
+        animation: laser 3s linear infinite;
+    }
+
+    .kanji-bg {
+        writing-mode: vertical-rl;
+        text-orientation: upright;
+        line-height: 1;
+    }
+</style>
+{% endblock %}

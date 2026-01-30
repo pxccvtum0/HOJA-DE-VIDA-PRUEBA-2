@@ -1,0 +1,164 @@
+{% extends 'curriculum/base.html' %}
+{% load static %}
+
+{% block title %}Perfil Profesional - {{ perfil.nombres }}{% endblock %}
+
+{% block content %}
+<!-- Contenedor principal: h-screen y overflow-hidden para evitar scroll global en escritorio -->
+<div class="grid lg:grid-cols-12 gap-6 items-center min-h-screen lg:h-screen lg:max-h-screen py-6 relative overflow-hidden bg-[#050505]">
+    
+    <!-- Fondo Temático: Energía Maldita y Vacío Infinito -->
+    <div class="absolute inset-0 opacity-20 pointer-events-none">
+        <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-900 blur-[150px] rounded-full animate-pulse"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-purple-900/40 blur-[180px] rounded-full"></div>
+    </div>
+
+    <!-- Kanjis Flotantes Estilo Jujutsu -->
+    <div class="absolute right-12 top-20 opacity-[0.04] select-none pointer-events-none hidden lg:block">
+        <h2 class="text-[12rem] font-serif font-black leading-none text-white" style="writing-mode: vertical-rl;">
+            呪術廻戦
+        </h2>
+    </div>
+
+    <!-- Lado Izquierdo: Contenido Textual -->
+    <div class="lg:col-span-7 relative z-10 fade-in space-y-4 lg:space-y-6 pl-6 lg:pl-16">
+        
+        <!-- Badge Estilo Sello de Hechicería -->
+        <div class="inline-flex items-center gap-4 px-5 py-1.5 bg-slate-900 border-l-4 border-purple-500 rounded-r-md backdrop-blur-md">
+            <span class="text-purple-400 font-mono text-[10px] uppercase tracking-[0.4em]">CARRERA</span>
+            <div class="h-3.5 w-[1px] bg-slate-700"></div>
+            <span class="text-white/80 font-black tracking-widest text-[9px] uppercase">TECNOLOGÍA DE LA INFORMACIÓN</span>
+        </div>
+        
+        <!-- Título con Estilo Dominio Infinito -->
+        <div class="space-y-1">
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-black leading-[0.85] text-white tracking-tighter">
+                <span class="text-lg block mb-2 font-serif italic text-purple-500 opacity-90 tracking-[0.5em]">領域展開</span>
+                <span class="relative inline-block">
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-white to-purple-500 uppercase">
+                        {{ perfil.nombres|default:"SORCERER" }}
+                    </span>
+                    <!-- Línea de Energía -->
+                    <span class="absolute -bottom-1 left-0 w-full h-[2px] bg-gradient-to-r from-blue-500 via-white to-purple-600 shadow-[0_0_15px_rgba(168,85,247,0.8)]"></span>
+                </span>
+            </h1>
+        </div>
+
+        <!-- Bio Estilo Pergamino de Hechicero (Tamaño optimizado) -->
+        {% if perfil.descripcion_perfil %}
+            <div class="max-w-xl group relative">
+                <div class="absolute -top-3 -right-3 w-8 h-8 opacity-20 group-hover:opacity-100 transition-opacity">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" class="text-purple-500"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke-width="1"/></svg>
+                </div>
+                
+                <div class="relative p-5 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-sm transition-all duration-500 group-hover:border-purple-500/50 group-hover:bg-purple-950/10">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="w-1.5 h-1.5 rounded-full bg-purple-500 animate-ping"></div>
+                        <span class="text-[9px] font-mono text-slate-400 tracking-[0.2em]">PERFIL DE ZETA</span>
+                    </div>
+                    <p class="text-base lg:text-lg text-slate-100 font-medium leading-snug italic">
+                        "{{ perfil.descripcion_perfil }}"
+                    </p>
+                </div>
+            </div>
+        {% endif %} 
+
+        <!-- Botones Estilo Escuela de Hechicería -->
+        <div class="flex flex-wrap gap-4 items-center pt-2">
+        </div>
+    </div>
+
+    <!-- Lado Derecho: Marco de Hechicero (Optimizado para no causar scroll) -->
+    <div class="lg:col-span-5 relative mt-6 lg:mt-0 px-6 flex justify-center items-center">
+        
+        <!-- Círculo de Invocación -->
+        <div class="absolute w-[80%] h-[80%] opacity-20 pointer-events-none">
+            <svg viewBox="0 0 200 200" class="w-full h-full animate-[spin_60s_linear_infinite]">
+                <circle cx="100" cy="100" r="90" fill="none" stroke="#a855f7" stroke-width="0.5" stroke-dasharray="10 5" />
+                <path d="M100 10 L110 90 L190 100 L110 110 L100 190 L90 110 L10 100 L90 90 Z" fill="none" stroke="#3b82f6" stroke-width="0.3" />
+            </svg>
+        </div>
+
+        <!-- Marco Principal de Identidad -->
+        <div class="relative z-10 w-full max-w-[320px] lg:max-w-[350px]">
+            <!-- Sello de Grado -->
+            <div class="absolute -top-4 -right-4 z-20 bg-gradient-to-br from-purple-600 to-blue-700 text-white w-16 h-16 rounded-full flex items-center justify-center text-[9px] font-black tracking-tighter shadow-2xl border-4 border-[#050505] transform rotate-12">
+                <div class="text-center">
+                    <p>特級</p>
+                    <p>GRADO C</p>
+                </div>
+            </div>
+
+            <div class="bg-[#0a0a0a] p-2 border border-purple-500/30 shadow-[0_0_50px_rgba(168,85,247,0.1)] relative overflow-hidden group rounded-3xl">
+                
+                {% if perfil and perfil.foto %}
+                    <div class="relative overflow-hidden aspect-[4/5] bg-slate-950 rounded-2xl">
+                        <div class="absolute inset-0 bg-gradient-to-t from-purple-900/40 via-transparent to-transparent z-20 pointer-events-none"></div>
+                        
+                        <img src="{{ perfil.foto.url }}" 
+                             alt="{{ perfil.nombres }}" 
+                             class="w-full h-full object-cover transition-all duration-[1.5s] group-hover:scale-110">
+                        
+                        <!-- HUD de Hechicero -->
+                        <div class="absolute inset-0 p-4 flex flex-col justify-between pointer-events-none z-30">
+                            <div class="flex justify-between items-start">
+                                <div class="bg-black/60 backdrop-blur-md p-1.5 rounded-lg border border-purple-500/40 text-[8px] text-purple-400 font-mono">
+                                    <p>呪力: DETECTADA</p>
+                                    <p>RESTRICCIÓN: NINGUNA</p>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-slate-900/90 border border-white/10 p-3 rounded-xl backdrop-blur-xl">
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center gap-6">
+                                        <div class="w-7 h-7 rounded-lg bg-purple-600 flex items-center justify-center">
+                                            <i data-lucide="eye" class="w-3.5 h-3.5 text-white"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-[10px] text-slate-400 uppercase">Estado</p>
+                                            <p class="text-[12px] font-bold text-white uppercase">Enfocado</p>
+                                        </div>
+                                    </div>
+                                    <div class="h-6 w-px bg-white/10"></div>
+                                    <div class="text-right">
+                                        <p class="text-[9px] text-purple-400 font-black">六眼</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <!-- Contador de Experiencia -->
+                <div class="absolute -bottom-3 -left-3 w-24 h-24 bg-[#0a0a0a] border-2 border-blue-500 rounded-2xl flex flex-col items-center justify-center z-40 group-hover:rotate-6 transition-transform shadow-2xl">
+                    <span class="text-[7px] font-black text-blue-400 uppercase tracking-widest">AÑOS EXP.</span>
+                    <div class="flex items-baseline">
+                        <span class="text-3xl font-black text-white italic">+2</span>
+                    </div>
+                    <div class="w-10 h-1 bg-blue-950 mt-1 overflow-hidden rounded-full">
+                        <div class="h-full bg-blue-500 w-[80%]"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Bloqueo de scroll global en escritorio para vista de perfil */
+    @media (min-width: 1024px) {
+        body { 
+            overflow: hidden !important; 
+            height: 100vh;
+        }
+    }
+
+    .fade-in {
+        animation: fadeIn 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.98) translateY(15px); }
+        to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+</style>
+{% endblock %}

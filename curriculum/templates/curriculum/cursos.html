@@ -1,0 +1,84 @@
+{% extends 'curriculum/base.html' %}
+
+{% block content %}
+<!-- SECCIÓN DE CURSOS & CAPACITACIONES (MODO JUJUTSU - AZUL & MORADO) -->
+<div class="fade-in px-4 py-20 relative bg-[#050a15]">
+    <div class="max-w-6xl mx-auto">
+        <!-- Título con estética de "Expansión de Dominio" en Azul y Morado -->
+        <h2 class="text-5xl md:text-7xl font-black italic uppercase mb-20 tracking-tighter text-white leading-[1.3] overflow-visible">
+            <span class="inline-block py-2">CURSOS &</span> <br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-600 inline-block py-4 px-6 -ml-6 drop-shadow-[0_0_15px_rgba(139,92,246,0.3)]">
+                CAPACITACIONES
+            </span>
+        </h2>
+
+        <!-- Rejilla de Cursos (3 columnas) -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for curso in cursos %}
+            <div class="jujutsu-card group relative bg-black/40 backdrop-blur-xl p-8 rounded-[3rem] border border-white/5 hover:border-blue-500/50 transition-all duration-500 flex flex-col h-full overflow-hidden">
+                
+                <!-- Decoración de fondo (Energía Maldita Azul/Morada) -->
+                <div class="absolute -right-10 -top-10 w-40 h-40 bg-indigo-600/10 rounded-full blur-3xl group-hover:bg-purple-600/20 transition-colors"></div>
+                
+                <!-- Icono de Curso -->
+                <div class="w-16 h-16 bg-slate-900/80 text-blue-400 rounded-2xl flex items-center justify-center mb-8 border border-blue-500/20 shadow-[0_0_15px_rgba(59,130,246,0.1)] group-hover:rotate-6 group-hover:scale-110 group-hover:border-purple-500/50 group-hover:text-purple-400 transition-all relative z-10">
+                    <i data-lucide="book-open-check" size="32"></i>
+                </div>
+                
+                <!-- Nombre del Curso -->
+                <h3 class="text-2xl font-black uppercase text-white leading-tight mb-4 relative z-10 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-purple-400 transition-all tracking-tighter italic">
+                    {{ curso.nombre_curso }}
+                </h3>
+                
+                <!-- Institución -->
+                <p class="font-bold text-xs text-slate-500 uppercase tracking-[0.2em] relative z-10 leading-relaxed mb-6 italic">
+                    {{ curso.institucion }}
+                </p>
+                
+                <!-- Pie de la Tarjeta con Carga Horaria y Botón de Certificado -->
+                <div class="mt-auto pt-6 border-t border-white/5 flex justify-between items-end relative z-10">
+                    <div class="flex flex-col gap-1">
+                        <p class="text-[8px] font-black text-slate-600 uppercase tracking-widest">Intensidad</p>
+                        <span class="text-[13px] font-black text-blue-400 uppercase tracking-tighter group-hover:text-purple-400 transition-colors">
+                            {{ curso.horas }} Horas
+                        </span>
+                    </div>
+
+                    <!-- Botón para ver Certificado de Curso -->
+                    {% if curso.certificado_pdf %}
+                    <a href="{{ curso.certificado_pdf.url }}" 
+                       target="_blank" 
+                       class="w-12 h-12 flex items-center justify-center bg-white text-black rounded-2xl shadow-xl hover:bg-gradient-to-br hover:from-blue-600 hover:to-purple-600 hover:text-white hover:scale-110 transition-all group/btn"
+                       title="Ver Certificado de Curso">
+                        <i data-lucide="file-text" size="20" class="group-hover/btn:rotate-12 transition-transform"></i>
+                    </a>
+                    {% else %}
+                    <div class="w-12 h-12 flex items-center justify-center bg-slate-900 text-slate-700 rounded-2xl border border-dashed border-slate-800 cursor-not-allowed" title="Sin archivo">
+                        <i data-lucide="file-x-2" size="20"></i>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-span-full py-20 text-center bg-black/20 rounded-[4rem] border border-dashed border-white/5">
+                <i data-lucide="scroll" size="48" class="mx-auto mb-4 text-slate-800"></i>
+                <p class="text-slate-500 font-bold uppercase tracking-widest text-xs italic">No hay certificaciones registradas.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Estilos específicos para las tarjetas oscuras con aura azul/morada */
+    .jujutsu-card {
+        box-shadow: 0 10px 30px -15px rgba(0,0,0,0.7);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .jujutsu-card:hover {
+        background-color: rgba(10, 20, 40, 0.8);
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px -10px rgba(139, 92, 246, 0.15);
+    }
+</style>
+{% endblock %}

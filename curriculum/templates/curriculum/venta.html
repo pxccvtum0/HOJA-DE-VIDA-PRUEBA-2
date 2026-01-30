@@ -62,10 +62,17 @@
                     <div class="flex items-center gap-2">
                         <span class="text-[9px] font-black text-white/30 tracking-[0.3em] uppercase">Grade_S // {{ item.stock }} Unit</span>
                     </div>
-                    <span class="text-[9px] font-bold px-2 py-0.5 rounded border border-cyan-500/20 text-cyan-400 bg-cyan-500/5 uppercase tracking-widest">
+                    <span class="text-[9px] font-bold px-2 py-0.5 rounded border uppercase tracking-widest
+                        {% if item.estado == 'Nuevo' %}
+                            border-emerald-500/20 text-emerald-400 bg-emerald-500/5
+                        {% elif item.estado == 'Como nuevo' %}
+                            border-cyan-500/20 text-cyan-400 bg-cyan-500/5
+                        {% else %}
+                            border-amber-500/20 text-amber-400 bg-amber-500/5
+                        {% endif %}">
                         {{ item.estado|default:"Usado" }}
                     </span>
-                </div>
+                    </div>
 
                 <h3 class="text-xl font-bold uppercase italic mb-3 tracking-tight group-hover:text-cyan-400 transition-colors">
                     {{ item.nombre_producto }}

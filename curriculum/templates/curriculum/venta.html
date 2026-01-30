@@ -62,17 +62,18 @@
                     <div class="flex items-center gap-2">
                         <span class="text-[9px] font-black text-white/30 tracking-[0.3em] uppercase">Grade_S // {{ item.stock }} Unit</span>
                     </div>
+                    
                     <span class="text-[9px] font-bold px-2 py-0.5 rounded border uppercase tracking-widest
-                        {% if item.estado == 'Nuevo' %}
-                            border-emerald-500/20 text-emerald-400 bg-emerald-500/5
-                        {% elif item.estado == 'Como nuevo' %}
-                            border-cyan-500/20 text-cyan-400 bg-cyan-500/5
+                        {% if item.estado|lower == 'nuevo' %}
+                            border-emerald-500/40 text-emerald-400 bg-emerald-500/10
+                        {% elif item.estado|lower == 'como nuevo' or item.estado|lower == 'casi nuevo' %}
+                            border-cyan-500/40 text-cyan-400 bg-cyan-500/10
                         {% else %}
-                            border-amber-500/20 text-amber-400 bg-amber-500/5
+                            border-amber-500/40 text-amber-400 bg-amber-500/10
                         {% endif %}">
                         {{ item.estado|default:"Usado" }}
                     </span>
-                    </div>
+                </div>
 
                 <h3 class="text-xl font-bold uppercase italic mb-3 tracking-tight group-hover:text-cyan-400 transition-colors">
                     {{ item.nombre_producto }}
@@ -98,7 +99,7 @@
                     </button>
                     {% else %}
                     <div class="w-full py-3 bg-white/5 text-white/20 text-center rounded-full text-[10px] font-bold tracking-[0.3em] border border-white/5 uppercase">
-                        Sellado
+                        Agotado
                     </div>
                     {% endif %}
                 </div>
@@ -110,7 +111,6 @@
 
 <div id="cart-modal" class="fixed inset-0 z-[150] hidden flex justify-end">
     <div class="absolute inset-0 bg-black/80 backdrop-blur-xl" onclick="toggleCartModal()"></div>
-    
     <div class="relative w-full max-w-md bg-[#0a0a0c] border-l border-white/10 flex flex-col shadow-2xl">
         <div class="p-8 border-b border-white/10 bg-[linear-gradient(to_bottom,rgba(34,211,238,0.05),transparent)]">
             <div class="flex justify-between items-center mb-4">
@@ -121,16 +121,12 @@
             </div>
             <p id="modal-count" class="text-[9px] font-bold text-cyan-400 tracking-[0.4em] uppercase">0 Objetos Purificados</p>
         </div>
-
-        <div id="cart-items" class="flex-grow overflow-y-auto p-8 space-y-6 no-scrollbar">
-            </div>
-
+        <div id="cart-items" class="flex-grow overflow-y-auto p-8 space-y-6 no-scrollbar"></div>
         <div class="p-8 bg-black/40 border-t border-white/10">
             <div class="flex justify-between items-center mb-8">
                 <span class="text-[10px] font-bold text-white/30 tracking-widest uppercase">Energía Requerida</span>
                 <span id="cart-total" class="text-4xl font-black text-white">$0</span>
             </div>
-            
             <a id="whatsapp-checkout" href="#" target="_blank" class="w-full py-5 bg-gradient-to-r from-cyan-500 to-purple-600 text-white rounded-[1.5rem] font-black uppercase text-[11px] tracking-[0.2em] text-center block hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] transition-all">
                 VERIFICAR VÍA WHATSAPP
             </a>
@@ -143,42 +139,34 @@
     body { font-family: 'Plus Jakarta Sans', sans-serif; }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-    
     .fade-in { animation: fadeIn 1s cubic-bezier(0.16, 1, 0.3, 1); }
     @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
 </style>
 
 <script>
     let cart = [];
-
     function incrementQty(id) {
         const input = document.getElementById('qty-' + id);
         if(input) input.value = parseInt(input.value) + 1;
     }
-
     function decrementQty(id) {
         const input = document.getElementById('qty-' + id);
         if(input && parseInt(input.value) > 1) input.value = parseInt(input.value) - 1;
     }
-
     function toggleCartModal() {
         const modal = document.getElementById('cart-modal');
         modal.classList.toggle('hidden');
         if (!modal.classList.contains('hidden')) renderCart();
     }
-
     function addToCart(id, name, price, image, inputId) {
         const input = document.getElementById(inputId);
         const qty = input ? parseInt(input.value) : 1;
         const cleanPrice = parseFloat(price.toString().replace(',', '.')) || 0;
-        
         const existingItem = cart.find(i => i.id === id);
         if (existingItem) existingItem.quantity += qty;
         else cart.push({ id, name, price: cleanPrice, image, quantity: qty });
-        
         updateCartBadge();
         if(input) input.value = 1;
-        
         const btn = event.currentTarget;
         const originalText = btn.innerText;
         btn.innerText = 'LISTO';
@@ -188,7 +176,6 @@
             btn.classList.remove('bg-cyan-500', 'text-white');
         }, 800);
     }
-
     function updateCartBadge() {
         const badge = document.getElementById('cart-count');
         const count = cart.reduce((acc, curr) => acc + curr.quantity, 0);
@@ -198,25 +185,21 @@
         }
         document.getElementById('modal-count').innerText = `${count} OBJETOS PURIFICADOS`;
     }
-
     function removeFromCart(index) {
         cart.splice(index, 1);
         renderCart();
         updateCartBadge();
     }
-
     function renderCart() {
         const container = document.getElementById('cart-items');
         const totalEl = document.getElementById('cart-total');
         const checkoutBtn = document.getElementById('whatsapp-checkout');
-        
         if (cart.length === 0) {
             container.innerHTML = `<div class="py-20 text-center opacity-20"><p class="text-[10px] font-bold tracking-widest uppercase">Dominio Vacío</p></div>`;
             totalEl.innerText = "$0";
             checkoutBtn.classList.add('opacity-30', 'pointer-events-none');
             return;
         }
-
         let subtotal = 0;
         container.innerHTML = cart.map((item, index) => {
             subtotal += (item.price * item.quantity);
@@ -234,7 +217,6 @@
                     </button>
                 </div>`;
         }).join('');
-
         totalEl.innerText = `$${subtotal.toLocaleString()}`;
         checkoutBtn.classList.remove('opacity-30', 'pointer-events-none');
         const message = encodeURIComponent(`NUEVO PEDIDO:\n` + cart.map(i => `• ${i.quantity}x ${i.name} ($${(i.price * i.quantity).toLocaleString()})`).join('\n') + `\n\nTOTAL: $${subtotal.toLocaleString()}`);
